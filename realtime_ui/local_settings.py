@@ -20,6 +20,6 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': '',
-        'TIMEOUT': 30,
+        'TIMEOUT': 600,
     }
 }
