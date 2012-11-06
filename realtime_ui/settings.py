@@ -158,4 +158,12 @@ LOGGING = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': '',
+        'LOCATION': '',
+        'TIMEOUT': 600,
+    }
+}
+
 from local_settings import *

@@ -14,6 +14,7 @@ socket.on('connect', function () {
 });
 
 socket.on('refresh', function (status){
+    alert('UI has been refreshed... all is lost...');
     update_button($('#rt_button'), status.rt_button);
     // etc, etc.
 });
