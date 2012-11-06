@@ -19,7 +19,7 @@ class Namespace(BaseNamespace, BroadcastMixin):
     # The cache, like the singleton model instance in the back,
     # is a bag of values. Each entry in the cache corresponds to the
     # state of a control in the UI.
-    initial_state = {'rt_button': False}
+    initial_state = {'slide': 0}
 
     def cached_state_get(self):
         state = cache.get_many(Namespace.initial_state.keys())
@@ -50,16 +50,12 @@ class Namespace(BaseNamespace, BroadcastMixin):
         self.cached_state = Namespace.initial_state
         self.broadcast_event('refresh', self.cached_state)
 
-    def on_click(self):
-        button_key = 'rt_button'
-
-        # Toggle state of the button.
-        new_button_state = not self.cached_state[button_key]
+    def on_slide(self, slide):
+        """Keep current slide for new clients."""
         # Update the cache.
-        self.cached_state = {button_key: new_button_state}
+        self.cached_state = slide
         # Of the UI state, send only the portion of interest.
-        message = {button_key: new_button_state}
-        self.broadcast_event_not_me('remote click', message)
+        self.broadcast_event_not_me('remote slide', slide)
 
 
 def init_cache():
