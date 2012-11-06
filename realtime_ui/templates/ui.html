@@ -6,15 +6,19 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <title>Real Time UI</title>
     <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
-  </head>
 
+    <link href="{{ STATIC_URL }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  </head>
   <body>
-    <form action="">
-      <input type="radio" name="radio-control" value="1" />Option 1<br />
-      <input type="radio" name="radio-control" value="2" />Option 2<br />
-    </form>
+
+    <div class="content">
+
+      <button id="rt_button" type="button" class="btn btn-primary">hold me</button>
+
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}vendor/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/socketio/socket.io.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/realtime_ui.js"></script>
     <script type="text/javascript">
@@ -23,6 +27,11 @@
       WEB_SOCKET_DEBUG = true;
 
       socket = io.connect('http://localhost:8000/ui');
+
+      $(document).ready(funtion(){
+          $('#rt_button').on('click', function(){
+          });
+      });
     </script>
   </body>
 </html>
