@@ -61,17 +61,27 @@ socket.on('remote slide', function(state){
 // Event signals.
 
 $(function () {
-    var $carousel = $('#carousel');
-    var $items = $('#carousel div.carousel-inner .item');
-    var current_slide_index = function(){
-        // zero-based index.
-    }
+    var $carousel = $('#carousel');                       // The carousel jQuery object.
+    var $items = $('#carousel div.carousel-inner .item'); // An array of jQuer objects, each a carousel item.
+    var self_slide = false;                               // Flag to mark local slides (not remote slides).
 
     $carousel.carousel( {interval: false} );
 
     $carousel.bind('slid', function(){
-        var ix = $('div.carousel-inner div.item').index( $('div.item.active') );
-        console.log('Slid to ' + ix);
-        socket.emit('slide', {slide: ix});
+        // Propagate the local slide among all other clients.
+        if (self_slide){
+            var ix = $('div.carousel-inner div.item').index( $('div.item.active') );
+            console.log('Slid to ' + ix);
+            socket.emit('slide', {slide: ix});
+
+            self_slide = false;
+        }
     });
+    $('#carousel a.left').on('click', function(){
+        self_slide = true;
+    });
+    $('#carousel a.right').on('click', function(){
+        self_slide = true;
+    });
+
 });
