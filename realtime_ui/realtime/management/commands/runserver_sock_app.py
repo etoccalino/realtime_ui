@@ -1,11 +1,11 @@
+from gevent import monkey
+monkey.patch_all()
+
 from optparse import make_option
 
 from django.core.management.base import BaseCommand
 from django.utils.importlib import import_module
 from django.conf import settings
-
-from gevent import monkey
-monkey.patch_all()
 
 from socketio import socketio_manage
 from socketio.server import SocketIOServer
@@ -72,7 +72,7 @@ class Command(BaseCommand):
         print
         print 'Listening on port %s:%s' % (options['host'], options['port'])
         print
-        SocketIOServer(('0.0.0.0', 8000),
+        SocketIOServer((options['host'], options['port']),
                        WithSocketio(application),
                        resource="socket.io",
                        policy_server=False).serve_forever()
