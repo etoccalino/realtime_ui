@@ -1,6 +1,13 @@
 // Helper functions related to DOM manipulation for the UI.
 
-var update_button = function(btn, is_active){
+function alert_message(message){
+    // a 'message' is an object with title and description.
+    $('#alert .title').text(message.title);
+    $('#alert .description').text(message.description);
+    $('#alert').slideDown(300).delay(2000).slideUp(500);
+}
+
+function update_button(btn, is_active){
     if (is_active) {
         btn.removeClass('active');
     }
@@ -9,11 +16,11 @@ var update_button = function(btn, is_active){
     }
 }
 
-var update_carousel = function(carousel_object, slide){
+function update_carousel(carousel_object, slide){
     carousel_object.carousel(slide);
 }
 
-var update_ui = function(state){
+function update_ui(state){
     update_carousel($('#carousel'), state.slide);
     // ...and all other controls.
 }
@@ -39,7 +46,10 @@ socket.on('initial', function (state){
     // Receive the current state of the UI, after connecting.
     //
     // Second part of a silly handshake; I suppose I'll learn to avoid it.
-    alert('Updating your UI...');
+    alert_message({
+        title: '',
+        description: 'Updating your UI...'
+    });
     update_ui(state);
 });
 
@@ -48,13 +58,23 @@ socket.on('initial', function (state){
 // Event handlers.
 
 socket.on('refresh', function (state){
-    alert('UI has been refreshed... all is lost...');
+    alert_message({
+        title: 'All is lost...',
+        description: "UI has been refreshed..."
+    });
     update_ui(state);
 });
 
 socket.on('remote slide', function(state){
     update_carousel($('#carousel'), state.slide);
-})
+});
+
+socket.on('arrival', function(){
+    alert_message({
+        title: 'New arrival...',
+        description: 'somebody else is operating the UI too.'
+    });
+});
 
 /* ------------------------------------------------------------------- */
 

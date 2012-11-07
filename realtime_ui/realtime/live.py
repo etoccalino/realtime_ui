@@ -25,6 +25,7 @@ class Namespace(BaseNamespace, BroadcastMixin):
         state = cache.get_many(Namespace.initial_state.keys())
         if not state:
             # Cache has gone stale.
+            # This should never happen, due to the persistance daemon's labor.
             # - fetch state back from the database.
             pass
         return state
@@ -45,6 +46,8 @@ class Namespace(BaseNamespace, BroadcastMixin):
     def on_ready(self):
         # Send current state of UI to client.
         self.emit('initial', self.cached_state)
+        # Send note to all other clients about the new visitor.
+        self.broadcast_event_not_me('arrival')
 
     def on_refresh(self):
         self.cached_state = Namespace.initial_state
