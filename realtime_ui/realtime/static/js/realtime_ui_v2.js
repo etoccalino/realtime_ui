@@ -53,6 +53,22 @@ socket.on('initial', function (state){
     update_ui(state);
 });
 
+socket.on('disconnect', function(){
+    alert_message({
+        title: 'Disconnected from the server!',
+        description: 'Will try to reconnect now... be patient, please.',
+    });
+    console.log('disconnected.');
+    $.blockUI({ message: null });
+});
+socket.on('reconnecting', function(){
+    console.log('...trying to reconnect...');
+});
+socket.on('reconnect', function(){
+    console.log('reconnected.');
+    $.unblockUI();
+});
+
 /* ------------------------------------------------------------------- */
 
 // Event handlers.
