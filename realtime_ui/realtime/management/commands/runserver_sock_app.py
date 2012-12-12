@@ -74,5 +74,13 @@ class Command(BaseCommand):
         print
         SocketIOServer((options['host'], options['port']),
                        WithSocketio(application),
+
+# This two configuration options are added in the repo, commit 2e251cecd4b00...
+# They would assumingly allow for faster client-server response to network
+# failure and recovery. Must investigate.
+#
+#                       heartbeat_interval=3,
+#                       heartbeat_timeout=10,
+
                        resource="socket.io",
                        policy_server=False).serve_forever()
